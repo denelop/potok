@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
 	"gopkg.in/yaml.v3"
 )
@@ -113,7 +114,17 @@ func Start(ctx context.Context, stream *Stream) error {
 				Str("out", streamOut.AbsPath()).
 				Log()
 		}
-		// TODO: restart if failing
+
+		log.Info("Restarting after 3 seconds").
+			Log()
+		time.Sleep(time.Second * 3)
+
+		err = Start(ctx, stream)
+		if err != nil {
+			log.Error("Restart error (will not restart again)").
+				Err(err).
+				Log()
+		}
 	}()
 
 	return nil

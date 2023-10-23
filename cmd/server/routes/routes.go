@@ -12,7 +12,7 @@ func API(router *mux.Router) {
 		"/stream/hls/{stream}",
 		function.HTTPHandler(
 			getMuxVars,
-			streamGetHLSBytes,
+			streamingGetHLSBytes,
 			function.RespondDetectContentType,
 		),
 	).Methods("GET")

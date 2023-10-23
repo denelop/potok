@@ -11,6 +11,7 @@ import (
 
 	"github.com/denelop/potok/cmd/server/routes"
 	"github.com/denelop/potok/pkg/env"
+	"github.com/denelop/potok/pkg/streaming"
 	"github.com/domonda/go-errs"
 	"github.com/domonda/golog/log"
 	"github.com/gorilla/handlers"
@@ -31,6 +32,11 @@ var config struct {
 
 func main() {
 	err := env.Parse(&config)
+	if err != nil {
+		panic(err)
+	}
+
+	err = streaming.StartAll(context.Background())
 	if err != nil {
 		panic(err)
 	}

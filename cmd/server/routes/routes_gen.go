@@ -7,83 +7,83 @@ import (
 	"encoding/json"
 	"reflect"
 
-	"github.com/denelop/potok/pkg/stream"
+	"github.com/denelop/potok/pkg/streaming"
 
 	"github.com/domonda/go-function"
 )
 
-// streamGetHLSBytes wraps stream.GetHLSBytes as function.Wrapper (generated code)
-var streamGetHLSBytes streamGetHLSBytesT
+// streamingGetHLSBytes wraps streaming.GetHLSBytes as function.Wrapper (generated code)
+var streamingGetHLSBytes streamingGetHLSBytesT
 
-// streamGetHLSBytesT wraps stream.GetHLSBytes as function.Wrapper (generated code)
-type streamGetHLSBytesT struct{}
+// streamingGetHLSBytesT wraps streaming.GetHLSBytes as function.Wrapper (generated code)
+type streamingGetHLSBytesT struct{}
 
-func (streamGetHLSBytesT) String() string {
-	return "stream.GetHLSBytes(ctx context.Context, stream string) (hlsStream []byte, err error)"
+func (streamingGetHLSBytesT) String() string {
+	return "streaming.GetHLSBytes(ctx context.Context, streaming string) (hlsStream []byte, err error)"
 }
 
-func (streamGetHLSBytesT) Name() string {
+func (streamingGetHLSBytesT) Name() string {
 	return "GetHLSBytes"
 }
 
-func (streamGetHLSBytesT) NumArgs() int      { return 2 }
-func (streamGetHLSBytesT) ContextArg() bool  { return true }
-func (streamGetHLSBytesT) NumResults() int   { return 2 }
-func (streamGetHLSBytesT) ErrorResult() bool { return true }
+func (streamingGetHLSBytesT) NumArgs() int      { return 2 }
+func (streamingGetHLSBytesT) ContextArg() bool  { return true }
+func (streamingGetHLSBytesT) NumResults() int   { return 2 }
+func (streamingGetHLSBytesT) ErrorResult() bool { return true }
 
-func (streamGetHLSBytesT) ArgNames() []string {
-	return []string{"ctx", "stream"}
+func (streamingGetHLSBytesT) ArgNames() []string {
+	return []string{"ctx", "streaming"}
 }
 
-func (streamGetHLSBytesT) ArgDescriptions() []string {
+func (streamingGetHLSBytesT) ArgDescriptions() []string {
 	return []string{"", ""}
 }
 
-func (streamGetHLSBytesT) ArgTypes() []reflect.Type {
+func (streamingGetHLSBytesT) ArgTypes() []reflect.Type {
 	return []reflect.Type{
 		function.ReflectType[context.Context](),
 		function.ReflectType[string](),
 	}
 }
 
-func (streamGetHLSBytesT) ResultTypes() []reflect.Type {
+func (streamingGetHLSBytesT) ResultTypes() []reflect.Type {
 	return []reflect.Type{
 		function.ReflectType[[]byte](),
 		function.ReflectType[error](),
 	}
 }
 
-func (streamGetHLSBytesT) Call(ctx context.Context, args []any) (results []any, err error) {
+func (streamingGetHLSBytesT) Call(ctx context.Context, args []any) (results []any, err error) {
 	results = make([]any, 1)
-	results[0], err = stream.GetHLSBytes(ctx, args[0].(string)) // wrapped call
+	results[0], err = streaming.GetHLSBytes(ctx, args[0].(string)) // wrapped call
 	return results, err
 }
 
-func (streamGetHLSBytesT) CallWithStrings(ctx context.Context, strs ...string) (results []any, err error) {
+func (streamingGetHLSBytesT) CallWithStrings(ctx context.Context, strs ...string) (results []any, err error) {
 	var a struct {
-		stream string
+		streaming string
 	}
 	if 0 < len(strs) {
-		a.stream = strs[0]
+		a.streaming = strs[0]
 	}
 	results = make([]any, 1)
-	results[0], err = stream.GetHLSBytes(ctx, a.stream) // wrapped call
+	results[0], err = streaming.GetHLSBytes(ctx, a.streaming) // wrapped call
 	return results, err
 }
 
-func (streamGetHLSBytesT) CallWithNamedStrings(ctx context.Context, strs map[string]string) (results []any, err error) {
+func (streamingGetHLSBytesT) CallWithNamedStrings(ctx context.Context, strs map[string]string) (results []any, err error) {
 	var a struct {
-		stream string
+		streaming string
 	}
-	if str, ok := strs["stream"]; ok {
-		a.stream = str
+	if str, ok := strs["streaming"]; ok {
+		a.streaming = str
 	}
 	results = make([]any, 1)
-	results[0], err = stream.GetHLSBytes(ctx, a.stream) // wrapped call
+	results[0], err = streaming.GetHLSBytes(ctx, a.streaming) // wrapped call
 	return results, err
 }
 
-func (f streamGetHLSBytesT) CallWithJSON(ctx context.Context, argsJSON []byte) (results []any, err error) {
+func (f streamingGetHLSBytesT) CallWithJSON(ctx context.Context, argsJSON []byte) (results []any, err error) {
 	var a struct {
 		Stream string
 	}
@@ -92,6 +92,6 @@ func (f streamGetHLSBytesT) CallWithJSON(ctx context.Context, argsJSON []byte) (
 		return nil, function.NewErrParseArgsJSON(err, f, argsJSON)
 	}
 	results = make([]any, 1)
-	results[0], err = stream.GetHLSBytes(ctx, a.Stream) // wrapped call
+	results[0], err = streaming.GetHLSBytes(ctx, a.Stream) // wrapped call
 	return results, err
 }

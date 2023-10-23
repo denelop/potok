@@ -72,19 +72,16 @@ func main() {
 	var handler http.Handler = router
 	if len(config.AllowedOrigins) > 0 {
 		allowedMethods := []string{"GET", "POST"}
-		allowedHeaders := []string{"X-Request-ID"}
 		exposedHeaders := []string{"X-Request-ID"}
 		handler = handlers.CORS(
 			handlers.AllowedOrigins(config.AllowedOrigins),
 			handlers.AllowedMethods(allowedMethods),
-			handlers.AllowedHeaders(allowedHeaders),
 			handlers.ExposedHeaders(exposedHeaders),
 		)(router)
 
 		log.Info("CORS enabled because allowed origins are configured").
 			Strs("allowedOrigins", config.AllowedOrigins).
 			Strs("allowedMethods", allowedMethods).
-			Strs("allowedHeaders", allowedHeaders).
 			Strs("exposedHeaders", exposedHeaders).
 			Log()
 	}

@@ -6,48 +6,31 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/ungerik/go-fs"
 	"gopkg.in/yaml.v3"
 )
 
-// StartAll starts all streams in the $STREAM_DIR.
+// StartAll starts all streams from the streams file.
 func StartAll(ctx context.Context) (err error) {
 	log := log.With().Ctx(ctx).SubLogger()
 
 	log.Info("Starting all").
 		Log()
 
-	var files []fs.File
-	err = config.Dir.ListDirContext(ctx, func(file fs.File) error {
-		files = append(files, file)
-		return nil
-	}, "*.yml", "*.yaml")
+	fileBytes, err := config.StreamFile.ReadAllContext(ctx)
+	if err != nil {
+		return err
+	}
+	var streams []*Stream
+	err = yaml.Unmarshal(fileBytes, &streams)
 	if err != nil {
 		return err
 	}
 
-	if len(files) == 0 {
-		log.Warn("No stream files found").Log()
-	} else {
-		log.Debug("Stream files found").Int("count", len(files)).Log()
-	}
-
-	for _, file := range files {
-		fileBytes, err := file.ReadAllContext(ctx)
-		if err != nil {
-			return err
-		}
-
-		var stream *Stream
-		err = yaml.Unmarshal(fileBytes, &stream)
-		if err != nil {
-			return err
-		}
+	for _, stream := range streams {
 		err = stream.Validate()
 		if err != nil {
 			return err
 		}
-
 		err = Start(ctx, stream)
 		if err != nil {
 			return err

@@ -53,6 +53,9 @@ func Start(ctx context.Context, stream *Stream) error {
 	var args []string
 
 	// input stream
+	if stream.RTSPTransport != "" {
+		args = append(args, "-rtsp_transport", stream.RTSPTransport)
+	}
 	args = append(args, "-i", stream.URL)
 
 	// watermark and scaling

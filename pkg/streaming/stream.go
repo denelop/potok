@@ -3,8 +3,9 @@ package streaming
 import "github.com/domonda/go-errs"
 
 type Stream struct {
-	Name string `yaml:"name"`
-	URL  string `yaml:"url"`
+	Name          string `yaml:"name"`
+	URL           string `yaml:"url"`
+	RTSPTransport string `yaml:"rtsp_transport"`
 }
 
 func (stream *Stream) Validate() error {

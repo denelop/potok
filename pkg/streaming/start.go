@@ -56,10 +56,10 @@ func Start(ctx context.Context, stream *Stream) error {
 	// watermark and scaling
 	if config.WatermarkFile != "" {
 		args = append(args, "-i", config.WatermarkFile.AbsPath())
-		args = append(args, "-filter_complex", strings.TrimSpace(`
-			[1]lut=a=val*0.3[opacity];
-			[0][opacity]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2,scale=-1:720
-		`))
+		args = append(args, "-filter_complex", strings.ReplaceAll(`
+[1]lut=a=val*0.3[opacity];
+[0][opacity]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2,scale=-1:720
+`, "\n", ""))
 	} else {
 		args = append(args, "-filter_complex", "[0]scale=-1:720")
 	}

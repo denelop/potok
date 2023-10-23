@@ -10,6 +10,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+var streams []*Stream
+
 // StartAll starts all streams from the streams file.
 func StartAll(ctx context.Context) (err error) {
 	log := log.With().Ctx(ctx).SubLogger()
@@ -21,7 +23,6 @@ func StartAll(ctx context.Context) (err error) {
 	if err != nil {
 		return err
 	}
-	var streams []*Stream
 	err = yaml.Unmarshal(fileBytes, &streams)
 	if err != nil {
 		return err
@@ -66,7 +67,8 @@ func Start(ctx context.Context, stream *Stream) error {
 	}
 
 	// hls
-	args = append(args, "-f", "hls", "-hls_flags", "delete_segments+append_list")
+	args = append(args, "-f", "hls", "-hls_playlist_type", "event")
+	args = append(args, "-preset", "veryfast")
 
 	// output
 	streamDir := config.Dir.Join(stream.Name)
@@ -74,10 +76,13 @@ func Start(ctx context.Context, stream *Stream) error {
 	if err != nil {
 		return err
 	}
-	err = streamDir.RemoveDirContentsRecursiveContext(ctx)
-	if err != nil {
-		return err
-	}
+
+	// TODO: removing necessary?
+	// err = streamDir.RemoveDirContentsRecursiveContext(ctx)
+	// if err != nil {
+	// 	return err
+	// }
+
 	streamOut := streamDir.Join("stream.out") // TODO: change out file if one exists
 	streamFile := streamDir.Join("stream.m3u8")
 	args = append(args, streamFile.AbsPath())

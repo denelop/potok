@@ -41,7 +41,7 @@ func StartAll(ctx context.Context) (err error) {
 }
 
 func Start(ctx context.Context, stream *Stream) error {
-	log = log.With().Ctx(ctx).
+	log := log.With().Ctx(ctx).
 		StructFields(stream).
 		SubLogger()
 

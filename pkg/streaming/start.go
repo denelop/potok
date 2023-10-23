@@ -67,7 +67,12 @@ func Start(ctx context.Context, stream *Stream) error {
 	}
 
 	// hls
-	args = append(args, "-f", "hls", "-hls_playlist_type", "event")
+	args = append(args,
+		"-f", "hls",
+		"-hls_time", "1",
+		"-hls_list_size", "3",
+		"-hls_flags", "delete_segments+append_list",
+	)
 	args = append(args, "-preset", "veryfast")
 
 	// output

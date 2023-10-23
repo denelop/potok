@@ -84,9 +84,11 @@ func Start(ctx context.Context, stream *Stream) error {
 	if err != nil {
 		return err
 	}
-	err = streamDir.RemoveDirContentsRecursiveContext(ctx)
-	if err != nil {
-		return err
+	if config.DeleteContentsOnStart {
+		err = streamDir.RemoveDirContentsRecursiveContext(ctx)
+		if err != nil {
+			return err
+		}
 	}
 
 	streamOut := streamDir.Join("stream.out") // TODO: change out file if one exists

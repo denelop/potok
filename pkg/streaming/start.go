@@ -29,10 +29,6 @@ func StartAll(ctx context.Context) (err error) {
 	}
 
 	for _, stream := range streams {
-		err = stream.Validate()
-		if err != nil {
-			return err
-		}
 		err = Start(ctx, stream)
 		if err != nil {
 			return err
@@ -53,9 +49,7 @@ func Start(ctx context.Context, stream *Stream) error {
 	var args []string
 
 	// input stream
-	if stream.RTSPTransport != "" {
-		args = append(args, "-rtsp_transport", stream.RTSPTransport)
-	}
+	args = append(args, "-rtsp_transport", string(stream.RTSPTransport))
 	args = append(args, "-i", stream.URL)
 
 	// watermark and scaling

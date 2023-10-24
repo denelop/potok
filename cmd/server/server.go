@@ -59,7 +59,7 @@ func main() {
 		return httperr.Handled
 	})
 
-	log.Debug("Configurated").
+	log.Debug("Configured").
 		StructFields(config).
 		Log()
 

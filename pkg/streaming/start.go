@@ -65,7 +65,7 @@ func Start(ctx context.Context, stream *Stream) error {
 
 	// hls
 	args = append(args,
-		"-maxrate", "3000k", // will create an #EXT-X-STREAM-INF entry in the playlist.m3u8
+		"-maxrate", "500k", // will create an #EXT-X-STREAM-INF entry in the playlist.m3u8
 		"-f", "hls",
 		"-hls_flags", "delete_segments+append_list",
 		"-master_pl_name", "playlist.m3u8",

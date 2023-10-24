@@ -64,7 +64,6 @@ func main() {
 		Log()
 
 	router := mux.NewRouter().StrictSlash(true)
-	router.Use(log.HTTPMiddlewareFunc(log.Levels.Debug, "HTTP request"))
 	router.Use(SecHeaders)
 
 	routes.API(router)

@@ -3,11 +3,16 @@ package streaming
 import (
 	"net/http"
 
+	"github.com/domonda/golog"
 	"github.com/gorilla/mux"
 	"github.com/ungerik/go-httpx/httperr"
 )
 
 func Handler(res http.ResponseWriter, req *http.Request) {
+	requestID := golog.GetOrCreateRequestUUID(req)
+	res.Header().Set("X-Request-ID", golog.FormatUUID(requestID))
+	req = golog.RequestWithAttribs(req, golog.UUID{Key: "requestID", Val: requestID})
+
 	ctx := req.Context()
 
 	vars := mux.Vars(req)
@@ -19,6 +24,7 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	log.InfoCtx(ctx, "Handling").
+		Request(req).
 		Str("streamName", streamName).
 		Str("file", file).
 		Log()

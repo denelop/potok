@@ -24,7 +24,6 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	log.InfoCtx(ctx, "Handling").
-		Request(req).
 		Str("streamName", streamName).
 		Str("file", file).
 		Log()

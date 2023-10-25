@@ -23,7 +23,7 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	log.InfoCtx(ctx, "Handling").
+	log.DebugCtx(ctx, "Handling").
 		Str("streamName", streamName).
 		Str("file", file).
 		Log()

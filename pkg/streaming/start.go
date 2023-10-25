@@ -53,7 +53,7 @@ func Start(ctx context.Context, stream *Stream) error {
 	args = append(args, "-rtsp_transport", string(stream.RTSPTransport))
 	args = append(args, "-i", stream.URL)
 
-	// filters complex
+	// filters
 	filterComplex := new(bytes.Buffer)
 	if config.WatermarkFile != "" {
 		args = append(args, "-i", config.WatermarkFile.AbsPath())
@@ -77,9 +77,9 @@ func Start(ctx context.Context, stream *Stream) error {
 		"-hls_flags", "delete_segments+append_list",
 		"-master_pl_name", "playlist.m3u8",
 	)
-	args = append(args, "-preset", "veryfast")
 
 	// output
+	args = append(args, "-preset", "veryfast")
 	streamDir := config.Dir.Join(stream.Name)
 	err := streamDir.MakeAllDirs()
 	if err != nil {

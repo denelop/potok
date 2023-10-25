@@ -125,7 +125,8 @@ func Start(ctx context.Context, stream *Stream) error {
 	args = append(args,
 		"-maxrate", "500k", // will create an #EXT-X-STREAM-INF entry in the `MASTER_PLAYLIST_NAME`
 		"-f", "hls",
-		"-hls_flags", "delete_segments",
+		"-hls_time", "1",
+		"-hls_flags", "delete_segments+omit_endlist",
 		"-master_pl_name", MASTER_PLAYLIST_NAME,
 	)
 

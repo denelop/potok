@@ -6,6 +6,13 @@ import (
 	"github.com/ungerik/go-fs"
 )
 
+const HTTP_PATH_STREAM_NAME_PARAM = "streamName"
+const HTTP_PATH_FILE_PARAM = "file"
+const HTTP_BASE_PATH = "/streaming"
+const HTTP_PATH = HTTP_BASE_PATH + "/{" + HTTP_PATH_STREAM_NAME_PARAM + "}/{" + HTTP_PATH_FILE_PARAM + "}"
+
+const MASTER_PLAYLIST_NAME = "playlist.m3u8"
+
 var (
 	log = rootlog.NewPackageLogger("stream")
 

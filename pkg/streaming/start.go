@@ -3,6 +3,8 @@ package streaming
 import (
 	"bytes"
 	"context"
+	"fmt"
+	"net/url"
 	"os"
 	"os/exec"
 	"strings"
@@ -42,6 +44,7 @@ func StartAll(ctx context.Context) (err error) {
 func Start(ctx context.Context, stream *Stream) error {
 	log := log.With().Ctx(ctx).
 		StructFields(stream).
+		Str("httpMasterPlaylistPath", fmt.Sprintf("%s/%s/%s", HTTP_BASE_PATH, url.PathEscape(stream.Name), MASTER_PLAYLIST_NAME)).
 		SubLogger()
 
 	log.Info("Starting").
@@ -72,10 +75,10 @@ func Start(ctx context.Context, stream *Stream) error {
 
 	// hls
 	args = append(args,
-		"-maxrate", "500k", // will create an #EXT-X-STREAM-INF entry in the playlist.m3u8
+		"-maxrate", "500k", // will create an #EXT-X-STREAM-INF entry in the `MASTER_PLAYLIST_NAME`
 		"-f", "hls",
 		"-hls_flags", "delete_segments+append_list",
-		"-master_pl_name", "playlist.m3u8",
+		"-master_pl_name", MASTER_PLAYLIST_NAME,
 	)
 
 	// output

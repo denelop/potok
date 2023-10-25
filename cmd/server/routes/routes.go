@@ -7,7 +7,7 @@ import (
 
 func API(router *mux.Router) {
 	router.HandleFunc(
-		"/streaming/{streamName}/{file}",
+		streaming.HTTP_PATH,
 		streaming.Handler,
 	).Methods("GET")
 }

@@ -16,8 +16,8 @@ func Handler(res http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 
 	vars := mux.Vars(req)
-	streamName := vars["streamName"]
-	file := vars["file"]
+	streamName := vars[HTTP_PATH_STREAM_NAME_PARAM]
+	file := vars[HTTP_PATH_FILE_PARAM]
 	if streamName == "" || file == "" {
 		httperr.NotFound.ServeHTTP(res, req)
 		return

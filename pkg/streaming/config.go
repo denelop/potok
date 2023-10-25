@@ -19,7 +19,6 @@ var (
 	config struct {
 		StreamFile            fs.File `env:"STREAMING_STREAMS_FILE,required"`
 		Dir                   fs.File `env:"STREAMING_DIR,required"`
-		WatermarkFile         fs.File `env:"STREAMING_WATERMARK_FILE"`
 		DeleteContentsOnStart bool    `env:"STREAMING_DELETE_CONTENTS_ON_START"`
 	}
 )

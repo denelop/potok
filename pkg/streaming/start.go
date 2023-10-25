@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/domonda/go-errs"
 	"gopkg.in/yaml.v3"
 )
 
@@ -58,20 +59,67 @@ func Start(ctx context.Context, stream *Stream) error {
 
 	// filters
 	filterComplex := new(bytes.Buffer)
-	if config.WatermarkFile != "" {
-		args = append(args, "-i", config.WatermarkFile.AbsPath())
-		filterComplex.WriteString(strings.ReplaceAll(`
-[1]lut=a=val*0.3[opacity];
-[0][opacity]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2
-`, "\n", ""))
-	}
-	if stream.Scale != "" {
-		if filterComplex.Len() > 0 {
-			filterComplex.WriteString(",")
+	{
+		// watermarks
+		{
+			// inputs
+			for _, watermark := range stream.Watermarks {
+				if !watermark.File.Exists() {
+					return errs.Errorf("watermark file %q does not exist", watermark.File.Path())
+				}
+				args = append(args, "-i", watermark.File.Path())
+			}
+
+			// apply opacity to watermarks
+			for i, watermark := range stream.Watermarks {
+				filterComplex.WriteString(
+					fmt.Sprintf("[%[1]d]lut=a=val*%.1f[%[1]dwm];",
+						i+1, // +1 because stream is first input
+						watermark.Opacity,
+					),
+				)
+			}
+
+			// apply watermarks to stream
+			for i, watermark := range stream.Watermarks {
+				var prevBg string
+				if i == 0 {
+					prevBg = "[0]"
+				} else {
+					prevBg = fmt.Sprintf("[bg%d]", i)
+				}
+
+				var bg string
+				if i < len(stream.Watermarks)-1 {
+					bg = fmt.Sprintf("[bg%d];", i+1)
+				}
+
+				filterComplex.WriteString(
+					fmt.Sprintf("%[2]s[%[1]dwm]overlay=%[3]s%[4]s",
+						i+1, // +1 because stream is first input
+						prevBg,
+						watermark.Position.FilterComplexWatermarkPosition(),
+						bg,
+					),
+				)
+			}
 		}
-		filterComplex.WriteString("scale=" + stream.Scale)
+
+		// scale
+		{
+			if stream.Scale != "" {
+				if filterComplex.Len() > 0 {
+					// if there's stuff in the filter complex, watermarks are applied - append the scale
+					filterComplex.WriteString(",scale=" + stream.Scale)
+				} else {
+					// otherwise the scale is the only filter
+					filterComplex.WriteString("scale=" + stream.Scale)
+				}
+			}
+		}
 	}
-	args = append(args, "-filter_complex", filterComplex.String())
+
+	args = append(args, "-filter_complex", strings.ReplaceAll(strings.ReplaceAll(filterComplex.String(), "\n", ""), "\t", ""))
 
 	// hls
 	args = append(args,

@@ -1,6 +1,7 @@
 package streaming
 
 import (
+	"bytes"
 	"context"
 	"os"
 	"os/exec"
@@ -52,16 +53,22 @@ func Start(ctx context.Context, stream *Stream) error {
 	args = append(args, "-rtsp_transport", string(stream.RTSPTransport))
 	args = append(args, "-i", stream.URL)
 
-	// watermark and scaling
+	// filters complex
+	filterComplex := new(bytes.Buffer)
 	if config.WatermarkFile != "" {
 		args = append(args, "-i", config.WatermarkFile.AbsPath())
-		args = append(args, "-filter_complex", strings.ReplaceAll(`
+		filterComplex.WriteString(strings.ReplaceAll(`
 [1]lut=a=val*0.3[opacity];
-[0][opacity]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2,scale=-1:720
+[0][opacity]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2
 `, "\n", ""))
-	} else {
-		args = append(args, "-filter_complex", "[0]scale=-1:720")
 	}
+	if stream.Scale != "" {
+		if filterComplex.Len() > 0 {
+			filterComplex.WriteString(",")
+		}
+		filterComplex.WriteString("scale=" + stream.Scale)
+	}
+	args = append(args, "-filter_complex", filterComplex.String())
 
 	// hls
 	args = append(args,

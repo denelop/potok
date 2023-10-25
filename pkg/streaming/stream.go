@@ -43,6 +43,7 @@ type Stream struct {
 	Name          string        `yaml:"name"`
 	URL           string        `yaml:"url"`
 	RTSPTransport RTSPTransport `yaml:"rtsp_transport"`
+	Scale         string        `yaml:"scale"`
 }
 
 func (stream *Stream) Validate() error {

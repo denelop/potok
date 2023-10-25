@@ -119,7 +119,9 @@ func Start(ctx context.Context, stream *Stream) error {
 		}
 	}
 
-	args = append(args, "-filter_complex", strings.ReplaceAll(strings.ReplaceAll(filterComplex.String(), "\n", ""), "\t", ""))
+	if filterComplex.Len() > 0 {
+		args = append(args, "-filter_complex", strings.ReplaceAll(strings.ReplaceAll(filterComplex.String(), "\n", ""), "\t", ""))
+	}
 
 	// hls
 	args = append(args,

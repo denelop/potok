@@ -125,7 +125,6 @@ func Start(ctx context.Context, stream *Stream) error {
 
 	// hls
 	args = append(args,
-		"-maxrate", "500k", // will create an #EXT-X-STREAM-INF entry in the `MASTER_PLAYLIST_NAME`
 		"-f", "hls",
 		"-hls_time", "1",
 		"-hls_flags", "delete_segments+omit_endlist",
@@ -133,7 +132,15 @@ func Start(ctx context.Context, stream *Stream) error {
 	)
 
 	// output
-	args = append(args, "-preset", "veryfast")
+	args = append(args,
+		// recommendations from https://trac.ffmpeg.org/wiki/Encode/H.264
+		// specifying the buffer and rate will make a bandwith entry in the master playlist for the #EXT-X-STREAM-INF
+		"-crf", "23",
+		"-maxrate", "500k",
+		"-bufsize", "1000k",
+		"-preset", "veryfast",
+		"-tune", "zerolatency",
+	)
 	streamDir := config.Dir.Join(stream.Name)
 	err := streamDir.MakeAllDirs()
 	if err != nil {

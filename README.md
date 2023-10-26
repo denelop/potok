@@ -4,7 +4,7 @@ The video streaming solution converting live webcam streams to HLS.
 
 ## Requirements
 
-- [Go](https://go.dev/) for development only
+- [Go](https://go.dev/) (for development only)
 - [ffmpeg](https://www.ffmpeg.org/)
   - Install latest release for macOS
     ```sh

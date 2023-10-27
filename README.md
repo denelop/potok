@@ -1,6 +1,10 @@
-# Potok
+<div align="center">
+  <br />
 
-The video streaming solution converting live webcam streams to HLS.
+![potok](logo.png)
+
+  <p>Video transcoding solution converting live webcam streams to HLS (<a href="https://developer.apple.com/streaming">HTTP Live Streaming</a>) that browsers and players can consume. It also supports often needed requirements like watermarking and scaling the video streams.</p>
+</div>
 
 ## Requirements
 

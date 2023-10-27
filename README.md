@@ -20,3 +20,7 @@ The video streaming solution converting live webcam streams to HLS.
 ## Web Player
 
 Use [HLS.js](https://github.com/video-dev/hls.js).
+
+## Meaning of "potok"
+
+The literal transalation of "stream" in Bosnian/Croatian/Serbian language is "potok". It is actually a river stream.

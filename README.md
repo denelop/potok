@@ -21,6 +21,27 @@
     sudo mv ffmpeg-*-amd64-static/ff* /usr/local/bin/
     ```
 
+## Defining Streams
+
+Streams are defined in a single YAML file following the format:
+
+```yaml
+- name: <Stream Name> (required)
+  url: <URL of the IP camera> (required)
+  rtsp_transport: <"tcp" or "udp"> (optional, "tcp" is default)
+  scale: <width:height> (optional)
+  watermarks:
+    - file: <path to the image> (required)
+      opacity: <0.1 - 1> (required)
+      position: <"top-left" or "center" or "bottom-right"> (required)
+```
+
+Definitions will be transcoded and the main streaming playlist (video) will each be served over HTTP at:
+
+```
+http://localhost:53030/streaming/<Stream Name>/playlist.m3u8
+```
+
 ## Web Player
 
 Since only Apple products natively support HLS, you're recommended to use [HLS.js](https://github.com/video-dev/hls.js) as an open-source browser player.

@@ -23,4 +23,4 @@ Use [HLS.js](https://github.com/video-dev/hls.js).
 
 ## Meaning of "potok"
 
-The literal transalation of "stream" in Bosnian/Croatian/Serbian language is "potok". It is actually a river stream.
+[The literal transalation of "stream" in Bosnian/Croatian/Serbian language is "potok".](https://translate.google.com/?sl=en&tl=bs&text=stream&op=translate) It is actually a river stream.

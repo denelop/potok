@@ -48,4 +48,4 @@ Since only Apple products natively support HLS, you're recommended to use [HLS.j
 
 ## Meaning of "potok"
 
-[The literal transalation of "stream" in Bosnian/Croatian/Serbian language is "potok".](https://translate.google.com/?sl=en&tl=bs&text=stream&op=translate) It is actually a river stream.
+The literal transalation of "stream" in Bosnian/Croatian/Serbian language is "potok" ([Google Translate](https://translate.google.com/?sl=en&tl=bs&text=stream&op=translate)). It is actually a river stream.

@@ -23,7 +23,7 @@
 
 ## Web Player
 
-Use [HLS.js](https://github.com/video-dev/hls.js).
+Since only Apple products natively support HLS, you're recommended to use [HLS.js](https://github.com/video-dev/hls.js) as an open-source browser player.
 
 ## Meaning of "potok"
 

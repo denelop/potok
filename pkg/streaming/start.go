@@ -55,6 +55,7 @@ func Start(ctx context.Context, stream *Stream) error {
 
 	// input stream
 	args = append(args, "-rtsp_transport", string(stream.RTSPTransport))
+	args = append(args, "-timeout", fmt.Sprint(30_000000)) // socket TCP I/O timeout in microseconds
 	args = append(args, "-i", stream.URL)
 
 	// filters
